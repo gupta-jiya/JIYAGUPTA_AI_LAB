@@ -1,0 +1,39 @@
+def reflex_vacuum(room, location, LEFT, RIGHT):
+    actions = []
+    if room[location] == 'Dirty':
+        actions.append(f"Clean at {location}")
+        room[location] = 'Clean'
+    else:
+        if location == LEFT and room[RIGHT] == 'Dirty':
+            actions.append(f"Move to {RIGHT}")
+            location = RIGHT
+        elif location == RIGHT and room[LEFT] == 'Dirty':
+            actions.append(f"Move to {LEFT}")
+            location = LEFT
+        else:
+            actions.append("No action")
+    return actions, location
+
+LEFT = 'A'
+RIGHT = 'B'
+
+room = {}
+room['A'] = input("Is room A Dirty or Clean? ").capitalize()
+room['B'] = input("Is room B Dirty or Clean? ").capitalize()
+
+while room['A'] not in ['Dirty', 'Clean'] or room['B'] not in ['Dirty', 'Clean']:
+    print("Please enter only 'Dirty' or 'Clean'")
+    room['A'] = input("Is room A Dirty or Clean? ").capitalize()
+    room['B'] = input("Is room B Dirty or Clean? ").capitalize()
+
+location = input("Where is the vacuum cleaner initially? (A/B): ").upper()
+while location not in ['A', 'B']:
+    print("Please enter 'A' or 'B'")
+    location = input("Where is the vacuum cleaner initially? (A/B): ").upper()
+
+
+
+while 'Dirty' in room.values():
+    actions, location = reflex_vacuum(room, location, LEFT, RIGHT)
+    for a in actions:
+        print(a)
